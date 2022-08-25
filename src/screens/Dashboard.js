@@ -52,6 +52,7 @@ const Dashboard = () => {
     console.log("ooo");
     setRemoveValue("");
     alert("uploaded");
+
     console.log("ji");
 
     // setSelectedFile(null);
