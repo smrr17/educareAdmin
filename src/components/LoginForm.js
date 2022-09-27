@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Box,
@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
-
 import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles(() => ({
   textField: {
@@ -33,10 +32,22 @@ const useStyles = makeStyles(() => ({
     borderBottomColor: "#00f700",
   },
 }));
-const LoginForm = ({ value, data }) => {
+const LoginForm = ({
+  value,
+  data,
+  email,
+  password,
+  confirmPassword,
+  setEmail,
+  setPassword,
+  setConfirmPassword,
+  onClick,
+}) => {
+  console.log("homorh");
   console.log(value);
   let navigate = useNavigate();
   const classes = useStyles();
+  console.log("hi", email, password, confirmPassword);
 
   const { floatingLabelFocusStyle } = classes;
   return (
@@ -59,7 +70,14 @@ const LoginForm = ({ value, data }) => {
           </Typography>
         </Toolbar>
       </Box>
-      <Box mt={3} noValidate sx={{}} id="login-form" component={"form"}>
+      <Box
+        mt={3}
+        // noValidate
+        sx={{}}
+        id="login-form"
+        component={"form"}
+        // style={{ display: "grid" }}
+      >
         <Box
           mb={1}
           sx={{
@@ -80,6 +98,8 @@ const LoginForm = ({ value, data }) => {
             variant="filled"
             id="email"
             name="email"
+            value={email}
+            onChange={setEmail}
             InputProps={{
               sx: {
                 color: "white",
@@ -113,6 +133,8 @@ const LoginForm = ({ value, data }) => {
             sx={{
               ".css-x2l1vy-MuiInputBase-root-MuiOutlinedInput-root": {
                 color: "white",
+                borderRadius: 5,
+                backgroundColor: "red",
               },
             }}
             InputProps={{
@@ -136,6 +158,8 @@ const LoginForm = ({ value, data }) => {
             name="password"
             variant="filled"
             type={"password"}
+            value={password}
+            onChange={setPassword}
           />
         </Box>
         {data ? (
@@ -183,15 +207,16 @@ const LoginForm = ({ value, data }) => {
               name="confirmPassword"
               variant="filled"
               type={"password"}
+              value={confirmPassword}
+              onChange={setConfirmPassword}
             />
           </Box>
         ) : null}
         <Button
-          onClick={() => {
-            navigate("/dashboard");
-          }}
+          onClick={onClick}
           style={{
             alignSelf: "center",
+            display: "flex",
           }}
           sx={{
             backgroundColor: "#00f700",

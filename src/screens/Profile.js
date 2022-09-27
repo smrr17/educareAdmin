@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Grid,
   Box,
@@ -19,9 +19,115 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { NoEncryption } from "@mui/icons-material";
+import { connect, useDispatch } from "react-redux";
+import axios from "../api/api";
 
-const Profile = () => {
+const Profile = (props) => {
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [name, setName] = useState(props.user?.name ? props.user?.name : "");
+  const [email, setEmail] = useState(props.user?.email);
+  const [fname, setFname] = useState(
+    props.user?.fname ? props.user?.fname : ""
+  );
+  const [username, setUsername] = useState(
+    props.user?.username ? props.user?.username : ""
+  );
+  const [address, setAddress] = useState(
+    props.user?.address ? props.user?.address : ""
+  );
+  const [contact, setContact] = useState(
+    props.user?.contact ? props.user?.contact : ""
+  );
+  const updatedProfile = () => {
+    if (
+      name === props.user.name &&
+      fname === props.user.fname &&
+      contact === props.user.contact &&
+      address === props.user.address &&
+      username === props.user.username
+    ) {
+      return alert("Make Some Changes");
+    }
+    if (name || fname || contact || username || address || contact) {
+      axios
+        .post("/updateProfile", { name, fname, username, address, contact })
+        .then(() => {
+          alert("Profile Updated");
+          userProfile({
+            ...props.user,
+            name,
+            fname,
+            username,
+            address,
+            contact,
+          });
+          navigate("/adminDashboard");
+        });
+    } else {
+      alert("Make Some Changes");
+    }
+  };
+  const facultyProfile = () => {
+    if (
+      name === props.user.name &&
+      fname === props.user.fname &&
+      contact === props.user.contact &&
+      address === props.user.address &&
+      username === props.user.username
+    ) {
+      return alert("Make Some Changes");
+    }
+    if (name || fname || contact || username || address || contact) {
+      axios
+        .post("/facultyUpdated", { name, fname, username, address, contact })
+        .then((res) => {
+          console.log("object,res", res);
+          alert("Profile faculty Updated");
+          userProfile({
+            ...props.user,
+            name,
+            fname,
+            username,
+            address,
+            contact,
+          });
+          navigate("/adminDashboard");
+        });
+    } else {
+      alert("Make Some Changes");
+    }
+  };
+  const userProfile = (data) => {
+    // console.log('asdssssszzxx', data);
+    return dispatch({ type: "SAVE_USER", payload: data });
+  };
+  const setUser = (data) => {
+    return dispatch({
+      type: "isLogin",
+      payload: data,
+    });
+  };
+  const setAdmin = (data) => {
+    return dispatch({
+      type: "isLoginAdmin",
+      payload: data,
+    });
+  };
+  const setFaculty = (data) => {
+    return dispatch({
+      type: "isLoginFaculty",
+      payload: data,
+    });
+  };
+  const logout = () => {
+    setUser(false);
+    setAdmin(false);
+    setFaculty(false);
+    userProfile(null);
+    navigate("/", { replace: true });
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -46,12 +152,7 @@ const Profile = () => {
           >
             Profile
           </Typography>
-          <Button
-            sx={{ color: "white" }}
-            onClick={() => {
-              navigate("/");
-            }}
-          >
+          <Button sx={{ color: "white" }} onClick={logout}>
             logout
             <LogoutIcon sx={{ marginLeft: 0.5, color: "white" }} />
           </Button>
@@ -100,6 +201,10 @@ const Profile = () => {
                 Name:
               </Typography>
               <input
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                value={name}
                 style={{
                   outline: "none",
                   padding: 10,
@@ -128,6 +233,10 @@ const Profile = () => {
                 F-Name:
               </Typography>
               <input
+                onChange={(e) => {
+                  setFname(e.target.value);
+                }}
+                value={fname}
                 style={{
                   outline: "none",
                   padding: 10,
@@ -167,6 +276,10 @@ const Profile = () => {
                 Username:
               </Typography>
               <input
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+                value={username}
                 style={{
                   outline: "none",
                   padding: 10,
@@ -195,6 +308,11 @@ const Profile = () => {
                 Email:
               </Typography>
               <input
+                contentEditable={false}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                value={email}
                 style={{
                   outline: "none",
                   padding: 10,
@@ -234,6 +352,10 @@ const Profile = () => {
                 Address:
               </Typography>
               <input
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+                value={address}
                 style={{
                   outline: "none",
                   padding: 10,
@@ -262,6 +384,10 @@ const Profile = () => {
                 Contact:
               </Typography>
               <input
+                onChange={(e) => {
+                  setContact(e.target.value);
+                }}
+                value={contact}
                 style={{
                   outline: "none",
                   padding: 10,
@@ -285,9 +411,15 @@ const Profile = () => {
           >
             <Button
               type="submit"
-              onClick={() => {
-                navigate("");
-              }}
+              onClick={
+                props.isLoginFaculty
+                  ? facultyProfile
+                  : props.isLoginAdmin
+                  ? updatedProfile
+                  : () => {
+                      alert("wrong click");
+                    }
+              }
               style={{}}
               sx={{
                 backgroundColor: "#00f700",
@@ -308,5 +440,13 @@ const Profile = () => {
     </Box>
   );
 };
+function mapStateToProps({ reducer: { user, isLoginFaculty, isLoginAdmin } }) {
+  console.log("asaad", user, isLoginFaculty, isLoginAdmin);
 
-export default Profile;
+  return {
+    user,
+    isLoginFaculty,
+    isLoginAdmin,
+  };
+}
+export default connect(mapStateToProps)(Profile);

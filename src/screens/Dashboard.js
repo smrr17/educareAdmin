@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import logo from "../assets/images/logo.png";
 import FolderIcon from "@mui/icons-material/Folder";
+
 import {
   Grid,
   Box,
@@ -18,12 +19,23 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import pic from "../assets/images/zain.jpeg";
+import axios from "../api/api";
+import { useDispatch } from "react-redux";
 
 const Dashboard = () => {
   const [selectedFile, setSelectedFile] = useState("");
   const [removeValue, setRemoveValue] = useState("");
+  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
   console.log(selectedFile);
+  let location = useLocation();
+  console.log("location", location);
+  // const { item } = location?.state;
+
+  const userProfile = (data) => {
+    // console.log('asdssssszzxx', data);
+    dispatch({ type: "SAVE_USER", payload: data });
+  };
 
   const onFileChange = (event) => {
     // Update the state
@@ -95,6 +107,24 @@ const Dashboard = () => {
       );
     }
   };
+  useEffect(() => {
+    // axios.get("/getUsers").then((e) => {
+    //   setUser(e.data);
+    //   console.log("fdf", e.data);
+    // });
+    console.log("jiih");
+    getLoggeduser();
+  }, []);
+  const getLoggeduser = () => {
+    console.log("chal");
+    axios.get("/loggedFaculty").then((res) => {
+      console.log(res.data.user, "user");
+      setUser(res.data.user);
+      // this.setState({ user: res.data.user });
+      userProfile(res.data.user);
+    });
+  };
+
   const url = "https://www.w3schools.com/images/img_girl.jpg";
   console.log(data);
   const [text, settext] = useState("");
@@ -107,6 +137,7 @@ const Dashboard = () => {
     setData(arr);
     settext("");
   };
+  // const email = 124;
   const [dense, setDense] = useState(false);
   // function generate(element: React.ReactElement) {
   //   return data.map((value) => {
@@ -119,6 +150,18 @@ const Dashboard = () => {
   //     });
   //   });
   // }
+  if (location.pathname === "/dashboard/profile") {
+    return <Outlet />;
+  }
+
+  // const findUser = (email) => {
+  //   const newUser = user;
+  //   return newUser.some((e) => e.email === email);
+  // };
+  // if (true) {
+  //   return <AdminDashboard />;
+  // }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -145,7 +188,7 @@ const Dashboard = () => {
           </Typography>
           <div
             onClick={() => {
-              navigate("/profile");
+              navigate("profile");
             }}
           >
             <Avatar sx={{ color: "red" }} src={url} />
@@ -290,5 +333,4 @@ const Dashboard = () => {
     </Box>
   );
 };
-
 export default Dashboard;

@@ -2,16 +2,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://dc30-110-93-227-52.in.ngrok.io",
+  baseURL: "https://shahmeer.pagekite.me/api/user",
 });
 instance.interceptors.request.use(
   async (config) => {
-    const token = await AsyncStorage.getItem("token");
-    console.log(token);
+    const token = await window.localStorage.getItem("token");
+
+    console.log(typeof token);
     if (token) {
       // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log("hjfjkfi", config);
     return config;
   },
   (e) => {

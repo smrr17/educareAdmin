@@ -42,6 +42,7 @@ const Navbar = () => {
             </Button>
           </Toolbar>
         </AppBar>
+        <Box></Box>
       </Box>
     </>
   );

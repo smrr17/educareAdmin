@@ -14,15 +14,25 @@ import {
   ListItemAvatar,
   ListItemText,
 } from "@mui/material";
-import Picker from "react-picker";
+
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FolderIcon from "@mui/icons-material/Folder";
+import Select from "react-select";
+import { width } from "@mui/system";
+import axios from "../api/api";
 const AdminHome = () => {
   let navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState("");
   const [removeValue, setRemoveValue] = useState("");
+  const [courses, setCourses] = useState(null);
+  console.log(courses);
   console.log(selectedFile);
+  useEffect(() => {
+    axios.get("/getUsers").then((res) => console.log(res));
+  }, []);
+
+  // const myOptions = ["Meat Lover", "Veggie Heaven", "Hawaii-5-0", "Inferno"];
 
   const onFileChange = (event) => {
     // Update the state
@@ -36,15 +46,44 @@ const AdminHome = () => {
       event.target.value = null;
     };
   };
+  const customStyles = {
+    menu: (provided, state) => ({
+      ...provided,
+      width: width * 0.2,
+      borderBottom: "1px dotted pink",
+      color: "black",
+      padding: 10,
+      fontSize: 10,
+    }),
+
+    control: (_, { selectProps: { width } }) => ({
+      width: width,
+      display: "flex",
+      backgroundColor: "white",
+      borderRadius: 15,
+
+      fontSize: 12,
+      maxWidth: "80%",
+      marginLeft: 44,
+    }),
+
+    singleValue: (provided, state) => {
+      const opacity = state.isDisabled ? 0.5 : 1;
+      const transition = "opacity 100ms";
+
+      return { ...provided, opacity, transition };
+    },
+  };
   // On file upload (click the upload button)
   const onFileUpload = () => {
     // Create an object of formData
-    const formData = new FormData();
+
+    let formData = new FormData();
     // Update the formData object
     formData.append("myFile", selectedFile, selectedFile.name);
     console.log("hi", formData);
     // Details of the uploaded file
-    console.log(selectedFile);
+    // console.log(selectedFile);
 
     // Request made to the backend api
     // Send formData object
@@ -62,24 +101,31 @@ const AdminHome = () => {
   const [data, setData] = useState([
     {
       value: "information Security",
+      label: "information Security",
     },
     {
       value: "Final Year Project",
+      label: "Final Year Project",
     },
     {
       value: "Softwear Engineering",
+      label: "Softwear Engineering",
     },
     {
       value: "Critical Thinking",
+      label: "Critical Thinking",
     },
     {
       value: "Software Quality Assurance",
+      label: "Software Quality Assurance",
     },
     {
       value: "Digital Logic Design",
+      label: "Digital Logic Design",
     },
     {
       value: "Artificial intelligence",
+      label: "Artificial intelligence",
     },
   ]);
   const [text, settext] = useState("");
@@ -159,7 +205,7 @@ const AdminHome = () => {
           </Typography>
           <div
             onClick={() => {
-              navigate("/profile");
+              navigate("profile");
             }}
           >
             <Avatar sx={{ color: "blue" }} />
@@ -366,6 +412,7 @@ const AdminHome = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-around",
+                    alignItems: "center",
                   }}
                 >
                   <input
@@ -377,50 +424,9 @@ const AdminHome = () => {
                       borderRadius: 15,
                       margin: 15,
                       flex: 1,
+                      width: 170,
                     }}
                   />
-                  <div>
-                    <Picker
-                      ref="fruitSelection"
-                      value={"ggg"}
-                      options={[
-                        "Mango",
-                        "Orange",
-                        "Avocado",
-                        "Pineapple",
-                        "Jack Fruit",
-                        "Durian",
-                        "Apricot",
-                        "Carambola",
-                        "Dateplum Persimmon",
-                        "Megranate",
-                      ]}
-                      onChange={(e) => {
-                        console.log(e);
-                      }}
-                    >
-                      {/* <OptionBox value={"picker"} onClick={() => {}} /> */}
-                    </Picker>
-                  </div>
-                  {/* <input
-                    type={""}
-                    placeholder="courses"
-                    style={{
-                      flex: 1,
-                      backgroundColor: "",
-                      padding: 10,
-                      borderRadius: 15,
-                      margin: 15,
-                    }} */}
-                  {/* /> */}
-                </Box>
-                <Box
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                  }}
-                >
                   <input
                     type={"email"}
                     placeholder="Email"
@@ -432,10 +438,29 @@ const AdminHome = () => {
                       flex: 1,
                     }}
                   />
+                </Box>
+                <Box
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                  }}
+                >
+                  <input
+                    type={"password"}
+                    placeholder="Password"
+                    style={{
+                      backgroundColor: "",
+                      padding: 10,
+                      borderRadius: 15,
+                      margin: 15,
+                      flex: 1,
+                    }}
+                  />
                   <input
                     required={true}
                     type={"password"}
-                    placeholder="Password"
+                    placeholder="Confirm Password"
                     style={{
                       flex: 1,
                       backgroundColor: "",
@@ -445,6 +470,25 @@ const AdminHome = () => {
                     }}
                   />
                 </Box>
+                <div
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginTop: 10,
+                    marginBottom: 10,
+                  }}
+                >
+                  <Select
+                    maxMenuHeight={90}
+                    placeholder={"Courses"}
+                    isMulti
+                    value={courses}
+                    onChange={setCourses}
+                    options={data}
+                    styles={customStyles}
+                  />
+                </div>
+
                 <div
                   style={{
                     display: "flex",
