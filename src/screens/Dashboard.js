@@ -1,6 +1,6 @@
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import logo from "../assets/images/logo.png";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import FolderIcon from "@mui/icons-material/Folder";
 
 import {
@@ -20,124 +20,45 @@ import {
   ListItemText,
 } from "@mui/material";
 import axios from "../api/api";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 
-const Dashboard = () => {
-  const [selectedFile, setSelectedFile] = useState("");
-  const [removeValue, setRemoveValue] = useState("");
+const Dashboard = (props) => {
   const [user, setUser] = useState(null);
   const dispatch = useDispatch();
-  console.log(selectedFile);
   let location = useLocation();
-  console.log("location", location);
-  // const { item } = location?.state;
-
   const userProfile = (data) => {
-    // console.log('asdssssszzxx', data);
     dispatch({ type: "SAVE_USER", payload: data });
   };
-
-  const onFileChange = (event) => {
-    // Update the state
-    // console.log(event);
-    setSelectedFile(event.target.files[0]);
-    setRemoveValue(event.target.value);
-    // event.target.value = null;
-    // this.setState({ selectedFile: event.target.files[0] });
-    // event.target.value = null;
-    return () => {
-      event.target.value = null;
-    };
-  };
-  // On file upload (click the upload button)
-  const onFileUpload = () => {
-    // Create an object of formData
-    const formData = new FormData();
-    // Update the formData object
-    formData.append("myFile", selectedFile, selectedFile.name);
-    console.log("hi", formData);
-    // Details of the uploaded file
-    console.log(selectedFile);
-
-    // Request made to the backend api
-    // Send formData object
-    console.log("ooo");
-    setRemoveValue("");
-    alert("uploaded");
-
-    console.log("ji");
-
-    // setSelectedFile(null);
-    // axios.post("api/uploadfile", formData);
-  };
-
-  const [data, setData] = useState([
-    {
-      value: "nomi",
-    },
-    {
-      value: "nomi",
-    },
-    {
-      value: "nomi",
-    },
-    {
-      value: "nomi",
-    },
-    {
-      value: "nomi",
-    },
-  ]);
-  const fileData = () => {
-    if (selectedFile) {
-      return (
-        <div>
-          <h2>File Details:</h2>
-          <p>File Name: {selectedFile.name}</p>
-          <p>File Type: {selectedFile.type}</p>
-          <p>Last Modified: {selectedFile.lastModifiedDate.toDateString()}</p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <br />
-          <h4>Choose before Pressing the Upload button</h4>
-        </div>
-      );
-    }
+  const userCourses = (data) => {
+    dispatch({ type: "Course", payload: data });
   };
   useEffect(() => {
-    // axios.get("/getUsers").then((e) => {
-    //   setUser(e.data);
-    //   console.log("fdf", e.data);
-    // });
-    console.log("jiih");
+    // console.log("jiih");
     getLoggeduser();
-  }, []);
+  }, [props.user]);
   const getLoggeduser = () => {
-    console.log("chal");
+    // console.log("chal");
     axios.get("/loggedFaculty").then((res) => {
       console.log(res.data.user, "user");
       setUser(res.data.user);
       // this.setState({ user: res.data.user });
       userProfile(res.data.user);
+      userCourses(res.data.user.courses);
     });
   };
 
   const url = "https://www.w3schools.com/images/img_girl.jpg";
-  console.log(data);
+
   const [text, settext] = useState("");
-  console.log(text);
-  let arr = ["shah", "name"];
+  // console.log(text);
   let navigate = useNavigate();
   const setter = () => {
-    let arr = [];
-    arr.push(...data, { value: text });
-    setData(arr);
-    settext("");
+    // let arr = [];
+    // arr.push(...data, { value: text });
+    // setData(arr);
+    // settext("");
   };
-  // const email = 124;
+
   const [dense, setDense] = useState(false);
   // function generate(element: React.ReactElement) {
   //   return data.map((value) => {
@@ -150,6 +71,9 @@ const Dashboard = () => {
   //     });
   //   });
   // }
+  if (location.pathname === "/dashboard/courseDetails") {
+    return <Outlet />;
+  }
   if (location.pathname === "/dashboard/profile") {
     return <Outlet />;
   }
@@ -205,33 +129,7 @@ const Dashboard = () => {
         }}
         pt={3}
       >
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box>
-            <input
-              value={removeValue}
-              onChange={onFileChange}
-              style={{
-                backgroundColor: "white",
-                marginRight: 4,
-                borderRadius: 10,
-                padding: 10,
-              }}
-              type="file"
-            />
-            <Button
-              onClick={onFileUpload}
-              style={{
-                backgroundColor: "#00f700",
-                padding: 8,
-                borderRadius: 8,
-                paddingInline: 20,
-              }}
-              variant="contained"
-              component="label"
-            >
-              upload
-            </Button>
-          </Box>
+        <Toolbar sx={{ justifyContent: "flex-end" }}>
           <Box>
             <input
               value={text}
@@ -243,7 +141,7 @@ const Dashboard = () => {
                 paddingInline: 44,
               }}
               onChange={(t) => {
-                console.log(t);
+                // console.log(t);
                 settext(t.target.value);
               }}
               type="text"
@@ -293,7 +191,7 @@ const Dashboard = () => {
             }}
             dense={dense}
           >
-            {data.map((i) => {
+            {user?.courses?.map((i) => {
               return (
                 <ListItem sx={{ padding: 1 }}>
                   <div
@@ -303,7 +201,7 @@ const Dashboard = () => {
                       alignItems: "center",
                     }}
                     onClick={() => {
-                      navigate("/");
+                      navigate("courseDetails", { state: i });
                     }}
                   >
                     <ListItemAvatar>
@@ -320,7 +218,7 @@ const Dashboard = () => {
                         padding: 0,
                       }}
                       style={{ color: "white" }}
-                      primary={i.value}
+                      primary={i.courseName}
                     />
                   </div>
                 </ListItem>
@@ -328,9 +226,16 @@ const Dashboard = () => {
             })}
           </List>
         </Card>
-        {fileData()}
       </Box>
     </Box>
   );
 };
-export default Dashboard;
+function mapStateToProps({ reducer: { courses, user } }) {
+  console.log("user", user);
+
+  return {
+    courses,
+    user,
+  };
+}
+export default connect(mapStateToProps)(Dashboard);

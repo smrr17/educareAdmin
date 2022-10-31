@@ -224,9 +224,10 @@ const LoginForm = ({
             borderRadius: 3,
             color: "white",
             height: 48,
-            width: "289px",
+            width: "300px",
             alignSelf: "center",
             marginTop: data ? 1 : 3,
+            marginBottom: 8,
           }}
         >
           {value}

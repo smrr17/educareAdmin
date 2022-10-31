@@ -86,7 +86,7 @@ class AdminDashboard extends Component {
 
   getLoggeduser = () => {
     axios.get("/loggeduser").then((res) => {
-      console.log(res.data.user, "user");
+      // console.log(res.data.user, "user");
       this.setState({ user: res.data.user });
       this.props.userProfile(res.data.user);
     });
@@ -94,7 +94,7 @@ class AdminDashboard extends Component {
   getAllCourses = async () => {
     axios.get("/getCourses").then((res) => {
       this.setState({ courses: res.data });
-      console.log(res);
+      console.log(res, "ioi");
     });
   };
   getAllFaculty = () => {
@@ -279,7 +279,7 @@ class AdminDashboard extends Component {
                         </div>
                         <div
                           onClick={() => {
-                            console.log("ids", i._id);
+                            console.log("ids", i);
                             axios
                               .delete(`/deleteCourse/${i._id}`)
                               .then((res) => {
@@ -361,11 +361,22 @@ class AdminDashboard extends Component {
                         </div>
                         <div
                           onClick={() => {
-                            console.log("ids", i._id);
+                            console.log("idsxdxdx", i.courses);
                             axios
                               .delete(`/deleteFaculty/${i._id}`)
                               .then((res) => {
-                                console.log("response", res.data);
+                                console.log("response", res.message);
+                                i.courses.forEach((e) => {
+                                  console.log("corse", e);
+                                  axios
+                                    .post(`editCourse/${e._id}`, {
+                                      ...e,
+                                      status: "unselected",
+                                    })
+                                    .then(() => {
+                                      console.log("dededed");
+                                    });
+                                });
                                 alert(res.message);
                                 this.getAllFaculty();
                               });

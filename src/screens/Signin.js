@@ -91,7 +91,7 @@ const Signin = () => {
           .then((res) => {
             console.log("res", res.data);
             if (res.data.status === "failed") {
-              return alert(res.data.message);
+              return alert(res.data.response.data.error, "knkn");
             }
             console.log("sdfdsfdsf");
             navigate("/dashboard", { state: { item: "faculty" } });
@@ -108,7 +108,7 @@ const Signin = () => {
       }
     } catch (error) {
       console.log(error);
-      alert(error);
+      alert(error.response.data.error);
     }
   };
   return (

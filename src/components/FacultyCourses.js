@@ -185,7 +185,7 @@ const FacultyCourses = () => {
                         color: "white",
                         height: 48,
                         width: "220px",
-                        mt: 2,
+                        mt: 1,
                       }}
                     >
                       Submit

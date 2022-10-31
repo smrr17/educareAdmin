@@ -1,5 +1,6 @@
 const INITIAL_STATES = {
   user: null,
+  courses: null,
   loader: false,
   isLogin: false,
   isLoginFaculty: false,
@@ -15,6 +16,11 @@ export default function (state = INITIAL_STATES, action) {
       return {
         ...state,
         user: action.payload,
+      };
+    case "Course":
+      return {
+        ...state,
+        courses: action.payload,
       };
     case "SAVE_POLLS":
       return {

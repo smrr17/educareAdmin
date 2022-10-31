@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { connect, useSelector } from "react-redux";
 import { render } from "@testing-library/react";
 import AdminDashboard from "./components/AdminDashboard";
+import CourseDetails from "./screens/CourseDetails";
 
 // class App extends React.Component {
 const App = (props) => {
@@ -90,6 +91,7 @@ const App = (props) => {
             }
           >
             <Route path="profile" element={<Profile />} />
+            <Route path="courseDetails" element={<CourseDetails />} />
           </Route>
           <Route
             path="/adminDashboard"

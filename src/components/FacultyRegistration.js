@@ -54,11 +54,14 @@ const FacultyRegistration = () => {
       })
       .then(() => {
         courses.forEach((i) => {
-          console.log(i);
-          axios.post(`/editCourse/${i._id}`, { ...i }).then(() => {
-            console.log("hogya");
-          });
+          console.log("dsd", i);
+          axios
+            .post(`editCourse/${i._id}`, { ...i, status: "selected" })
+            .then(() => {
+              console.log("hogya");
+            });
         });
+        alert("uploaded");
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -66,7 +69,6 @@ const FacultyRegistration = () => {
         setConfirmPassword("");
         setContact("");
         setCourses([]);
-        alert("uploaded");
         navigate("/dashboard");
       })
       .catch((e) => {
