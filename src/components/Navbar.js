@@ -7,7 +7,7 @@ const Navbar = () => {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
-          style={{ backgroundColor: "#00f700" }}
+          style={{ backgroundColor: "#1d80e1" }}
           position="static"
           color="default"
         >
@@ -18,12 +18,12 @@ const Navbar = () => {
               component="div"
               sx={{ flexGrow: 1 }}
             >
-              Educare
+              Infomedica
             </Typography>
             <Button
               sx={{ color: "white", textTransform: "capitalize" }}
               style={({ isActive }) => ({
-                backgroundColor: isActive ? "#080" : "",
+                backgroundColor: isActive ? "#2747c5" : "",
               })}
               component={NavLink}
               to="/"
@@ -32,7 +32,7 @@ const Navbar = () => {
             </Button>
             <Button
               style={({ isActive }) => ({
-                backgroundColor: isActive ? "#080" : "",
+                backgroundColor: isActive ? "#2747c5" : "",
               })}
               sx={{ color: "white", textTransform: "capitalize" }}
               component={NavLink}
@@ -42,7 +42,6 @@ const Navbar = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <Box></Box>
       </Box>
     </>
   );

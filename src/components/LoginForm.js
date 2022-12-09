@@ -22,14 +22,14 @@ const useStyles = makeStyles(() => ({
     paddingBottom: 0,
     marginTop: 0,
     fontWeight: 500,
-    borderBottomColor: "3px solid #00f700",
+    borderBottomColor: "3px solid #1d80e1",
   },
   input: {
     color: "white",
   },
   floatingLabelFocusStyle: {
-    color: "#00f700",
-    borderBottomColor: "#00f700",
+    color: "#1d80e1",
+    borderBottomColor: "#1d80e1",
   },
 }));
 const LoginForm = ({
@@ -55,11 +55,11 @@ const LoginForm = ({
       <Box sx={{ alignItems: "center", justifyContent: "center" }}>
         <Toolbar sx={{ justifyContent: "space-between", m: 0, p: 0 }}>
           <Typography
-            style={{ color: "#00f700", fontSize: 24, fontWeight: "bold" }}
+            style={{ color: "#1d80e1", fontSize: 24, fontWeight: "bold" }}
             variant="h4"
             component="div"
           >
-            Educare
+            infomedica
           </Typography>
           <Typography
             style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
@@ -82,8 +82,8 @@ const LoginForm = ({
           mb={1}
           sx={{
             mb: 1,
-            backgroundColor: "black",
-            color: "#191c24",
+            backgroundColor: "#1d80e120",
+            // color: "#e8f0fe",
             borderRadius: 1,
           }}
         >
@@ -102,12 +102,12 @@ const LoginForm = ({
             onChange={setEmail}
             InputProps={{
               sx: {
-                color: "white",
+                color: "black",
               },
             }}
             InputLabelProps={{
               style: {
-                color: "#00f700",
+                color: "#1d80e1",
               },
             }}
           />
@@ -116,18 +116,18 @@ const LoginForm = ({
           mb={1}
           sx={{
             mb: 1,
-            backgroundColor: "black",
-            color: "#191c24",
+            backgroundColor: "#1d80e120",
+            // color: "#e8f0fe",
             borderRadius: 1,
           }}
         >
           <TextField
             InputLabelProps={{
               style: {
-                color: "#00f700",
+                color: "#1d80e1",
               },
               sx: {
-                borderBottomColor: "white",
+                borderBottomColor: "#1d80e1",
               },
             }}
             sx={{
@@ -139,7 +139,7 @@ const LoginForm = ({
             }}
             InputProps={{
               sx: {
-                color: "white",
+                color: "black",
 
                 ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                   border: "2px solid white",
@@ -167,15 +167,15 @@ const LoginForm = ({
             mb={1}
             sx={{
               mb: 1,
-              backgroundColor: "black",
-              color: "#191c24",
+              backgroundColor: "#1d80e120",
+              // color: "#e8f9fe",
               borderRadius: 1,
             }}
           >
             <TextField
               InputLabelProps={{
                 style: {
-                  color: "#00f700",
+                  color: "#1d80e1",
                 },
                 sx: {
                   borderBottomColor: "white",
@@ -188,7 +188,7 @@ const LoginForm = ({
               }}
               InputProps={{
                 sx: {
-                  color: "white",
+                  color: "black",
 
                   ".css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
                     border: "2px solid white",
@@ -219,7 +219,7 @@ const LoginForm = ({
             display: "flex",
           }}
           sx={{
-            backgroundColor: "#00f700",
+            backgroundColor: "#2747c5",
             border: 0,
             borderRadius: 3,
             color: "white",

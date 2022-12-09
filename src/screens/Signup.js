@@ -1,6 +1,6 @@
 import { Grid, Box, Button, Card, Typography, Tabs, Tab } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import pic from "../assets/images/logo.png";
+import pic from "../assets/images/logoo.jpeg";
 import LoginForm from "../components/LoginForm";
 import React, { useState, useEffect } from "react";
 import axios from "../api/api";
@@ -61,16 +61,14 @@ const Signup = () => {
     <Box
       sx={{}}
       style={{
-        backgroundColor: "black",
+        backgroundColor: "white",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
-      pt={3}
     >
-      <Grid container sx={{ height: "90vh" }}>
+      <Grid container sx={{ height: "85vh", padding: 2 }}>
         <Grid
-          item
           lg={7}
           sm={6}
           sx={{
@@ -78,6 +76,7 @@ const Signup = () => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
+            borderRadius: 10,
           }}
         ></Grid>
         <Grid p={10} lg={5} sm={6} mt={5} pb={6} mb={0}>
@@ -86,7 +85,7 @@ const Signup = () => {
               width: "95%",
               height: "85%",
               alignSelf: "center",
-              backgroundColor: "#191c24",
+              backgroundColor: "#1d80e150",
               borderRadius: 10,
             }}
           >

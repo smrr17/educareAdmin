@@ -123,15 +123,15 @@ const Profile = (props) => {
   };
   const logout = () => {
     setUser(false);
-    setAdmin(false);
-    setFaculty(false);
+    // setAdmin(false);
+    // setFaculty(false);
     userProfile(null);
     navigate("/", { replace: true });
   };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        style={{ backgroundColor: "#00f700" }}
+        style={{ backgroundColor: "#1d80e1" }}
         position="static"
         color="default"
       >
@@ -140,17 +140,22 @@ const Profile = (props) => {
             style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
             variant="h4"
             component="div"
-            sx={{ flexGrow: 1 }}
+            // sx={{ flexGrow: 1 }}
           >
-            Educare
+            infomedica
           </Typography>
           <Typography
-            style={{ color: "white", fontSize: 24, fontWeight: "bold" }}
+            style={{
+              color: "white",
+              fontSize: 24,
+              fontWeight: "bold",
+              textAlign: "center",
+            }}
             variant="h4"
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            Profile
+            Dashboard
           </Typography>
           <Button sx={{ color: "white" }} onClick={logout}>
             logout
@@ -164,7 +169,7 @@ const Profile = (props) => {
           justifyContent: "center",
         }}
         sx={{
-          backgroundColor: "black",
+          backgroundColor: "#1d80e140",
           height: "90vh",
           p: 2,
         }}
@@ -196,7 +201,7 @@ const Profile = (props) => {
               <Typography
                 fontSize={24}
                 fontWeight={"bold"}
-                sx={{ color: "#00f700", width: "25%" }}
+                sx={{ color: "#1d80e1", width: "25%" }}
               >
                 Name:
               </Typography>
@@ -211,7 +216,7 @@ const Profile = (props) => {
                   width: "50%",
                   marginLeft: 10,
                   borderRadius: 10,
-                  borderColor: "#00f700",
+                  borderColor: "#1d80e1",
                   borderWidth: 4,
                 }}
                 type={"text"}
@@ -228,7 +233,7 @@ const Profile = (props) => {
               <Typography
                 fontSize={24}
                 fontWeight={"bold"}
-                sx={{ color: "#00f700", width: "25%" }}
+                sx={{ color: "#1d80e1", width: "25%" }}
               >
                 F-Name:
               </Typography>
@@ -244,7 +249,7 @@ const Profile = (props) => {
                   marginLeft: 10,
                   width: "40%",
                   borderRadius: 10,
-                  borderColor: "#00f700",
+                  borderColor: "#1d80e1",
                   borderWidth: 4,
                 }}
                 type={"text"}
@@ -271,7 +276,7 @@ const Profile = (props) => {
               <Typography
                 fontSize={24}
                 fontWeight={"bold"}
-                sx={{ color: "#00f700", width: "25%" }}
+                sx={{ color: "#1d80e1", width: "25%" }}
               >
                 Username:
               </Typography>
@@ -286,7 +291,7 @@ const Profile = (props) => {
                   width: "50%",
                   marginLeft: 10,
                   borderRadius: 10,
-                  borderColor: "#00f700",
+                  borderColor: "#1d80e1",
                   borderWidth: 4,
                 }}
                 type={"text"}
@@ -303,7 +308,7 @@ const Profile = (props) => {
               <Typography
                 fontSize={24}
                 fontWeight={"bold"}
-                sx={{ color: "#00f700", width: "25%" }}
+                sx={{ color: "#1d80e1", width: "25%" }}
               >
                 Email:
               </Typography>
@@ -320,7 +325,7 @@ const Profile = (props) => {
                   marginLeft: 10,
                   width: "40%",
                   borderRadius: 10,
-                  borderColor: "#00f700",
+                  borderColor: "#1d80e1",
                   borderWidth: 4,
                 }}
                 type={"text"}
@@ -347,7 +352,7 @@ const Profile = (props) => {
               <Typography
                 fontSize={24}
                 fontWeight={"bold"}
-                sx={{ color: "#00f700", width: "25%" }}
+                sx={{ color: "#1d80e1", width: "25%" }}
               >
                 Address:
               </Typography>
@@ -362,7 +367,7 @@ const Profile = (props) => {
                   width: "50%",
                   marginLeft: 10,
                   borderRadius: 10,
-                  borderColor: "#00f700",
+                  borderColor: "#1d80e1",
                   borderWidth: 4,
                 }}
                 type={"text"}
@@ -379,7 +384,7 @@ const Profile = (props) => {
               <Typography
                 fontSize={24}
                 fontWeight={"bold"}
-                sx={{ color: "#00f700", width: "25%" }}
+                sx={{ color: "#1d80e1", width: "25%" }}
               >
                 Contact:
               </Typography>
@@ -395,7 +400,7 @@ const Profile = (props) => {
                   marginLeft: 10,
                   width: "40%",
                   borderRadius: 10,
-                  borderColor: "#00f700",
+                  borderColor: "#1d80e1",
                   borderWidth: 4,
                 }}
                 type={"text"}
@@ -422,7 +427,7 @@ const Profile = (props) => {
               }
               style={{}}
               sx={{
-                backgroundColor: "#00f700",
+                backgroundColor: "#1d80e1",
 
                 borderRadius: 3,
                 color: "white",

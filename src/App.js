@@ -18,6 +18,7 @@ import { connect, useSelector } from "react-redux";
 import { render } from "@testing-library/react";
 import AdminDashboard from "./components/AdminDashboard";
 import CourseDetails from "./screens/CourseDetails";
+import VacancyDashboard from "./screens/VacancyDashboard";
 
 // class App extends React.Component {
 const App = (props) => {
@@ -62,11 +63,13 @@ const App = (props) => {
             element={
               !props.isLogin ? (
                 <Layout />
-              ) : props.isLoginAdmin ? (
-                <Navigate to="/adminDashboard" replace />
-              ) : props.isLoginFaculty ? (
+              ) : (
+                // ) : props.isLoginAdmin ? (
+                //   <Navigate to="/adminDashboard" replace />
+                // ) : props.isLoginFaculty ? (
                 <Navigate to="/dashboard" replace />
-              ) : null
+              )
+              // ) : null
             }
           >
             <Route index element={<Signin />} />
@@ -76,24 +79,28 @@ const App = (props) => {
             path="/dashboard"
             element={
               props.isLogin ? (
-                props.isLoginFaculty ? (
-                  <Dashboard />
-                ) : (
-                  <Navigate
-                    to="/"
-                    replace
-                    state={{
-                      st: "user is not logged in",
-                    }}
-                  />
-                )
-              ) : null
+                <VacancyDashboard />
+              ) : (
+                // props.isLogin ? (
+                //   props.isLoginFaculty ? (
+                //     <VacancyDashboard />
+                //   ) : (
+                <Navigate
+                  to="/"
+                  replace
+                  state={{
+                    st: "user is not logged in",
+                  }}
+                />
+              )
+              //   )
+              // ) : null
             }
           >
             <Route path="profile" element={<Profile />} />
             <Route path="courseDetails" element={<CourseDetails />} />
           </Route>
-          <Route
+          {/* <Route
             path="/adminDashboard"
             element={
               props.isLogin ? (
@@ -117,7 +124,7 @@ const App = (props) => {
               element={<FacultyRegistration />}
             />
             <Route path="facultyCourses" element={<FacultyCourses />} />
-          </Route>
+          </Route> */}
           <Route path="*" element={<h1>page not found error 404 !!</h1>} />
 
           {/* <Route path="/post/:lll" element={<Post />} />
