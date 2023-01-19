@@ -63,7 +63,7 @@ const Profile = (props) => {
             address,
             contact,
           });
-          navigate("/adminDashboard");
+          navigate("/dashboard");
         });
     } else {
       alert("Make Some Changes");
@@ -416,15 +416,7 @@ const Profile = (props) => {
           >
             <Button
               type="submit"
-              onClick={
-                props.isLoginFaculty
-                  ? facultyProfile
-                  : props.isLoginAdmin
-                  ? updatedProfile
-                  : () => {
-                      alert("wrong click");
-                    }
-              }
+              onClick={updatedProfile}
               style={{}}
               sx={{
                 backgroundColor: "#1d80e1",

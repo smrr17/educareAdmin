@@ -19,6 +19,7 @@ import { render } from "@testing-library/react";
 import AdminDashboard from "./components/AdminDashboard";
 import CourseDetails from "./screens/CourseDetails";
 import VacancyDashboard from "./screens/VacancyDashboard";
+import VaccineDetails from "./screens/VaccineDetails";
 
 // class App extends React.Component {
 const App = (props) => {
@@ -98,7 +99,7 @@ const App = (props) => {
             }
           >
             <Route path="profile" element={<Profile />} />
-            <Route path="courseDetails" element={<CourseDetails />} />
+            <Route path="vaccineDetails" element={<VaccineDetails />} />
           </Route>
           {/* <Route
             path="/adminDashboard"

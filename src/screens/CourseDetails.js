@@ -122,7 +122,7 @@ const CourseDetails = (props) => {
       );
     }
   };
-  console.log("stateeee", state.courseDocument);
+  // console.log("stateeee", state.courseDocument);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -145,7 +145,7 @@ const CourseDetails = (props) => {
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            {state.courseName}
+            jii
           </Typography>
           {/* <div
             onClick={() => {
@@ -264,7 +264,7 @@ const CourseDetails = (props) => {
             }}
             dense={dense}
           >
-            {state?.courseDocument?.map((i) => {
+            {/* {state?.courseDocument?.map((i) => {
               console.log("info", i);
               return (
                 <ListItem sx={{ padding: 1 }}>
@@ -297,7 +297,7 @@ const CourseDetails = (props) => {
                   </div>
                 </ListItem>
               );
-            })}
+            })} */}
           </List>
         </Card>
         {/* <DocViewer
@@ -322,13 +322,13 @@ const CourseDetails = (props) => {
           }
           // onError={onError}
         /> */}
-        <iframe
+        {/* <iframe
           frameBorder={"0"}
           src={
             state?.courseDocument[1]?.url ? state?.courseDocument[1]?.url : ""
           }
           style={{ width: "100%", height: 500 }}
-        ></iframe>
+        ></iframe> */}
       </Box>
     </Box>
   );

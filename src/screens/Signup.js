@@ -1,21 +1,39 @@
-import { Grid, Box, Button, Card, Typography, Tabs, Tab } from "@mui/material";
+import {
+  Grid,
+  Box,
+  Button,
+  Card,
+  Typography,
+  Tabs,
+  Tab,
+  ToggleButton,
+} from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import pic from "../assets/images/logoo.jpeg";
 import LoginForm from "../components/LoginForm";
 import React, { useState, useEffect } from "react";
 import axios from "../api/api";
 import { useDispatch } from "react-redux";
+import { CheckCircleOutline } from "@mui/icons-material";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [selected, setSelected] = useState(false);
+
   console.log("japan", email, password, confirmPassword);
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const setUser = (data) => {
     return dispatch({
       type: "isLogin",
+      payload: data,
+    });
+  };
+  const setUserProfile = (data) => {
+    return dispatch({
+      type: "SAVE_USER",
       payload: data,
     });
   };
@@ -41,10 +59,11 @@ const Signup = () => {
             }
             // window.localStorage.setItem("token", res.data.token);
             console.log("sdfdsfdsf");
-            navigate("/adminDashboard", { state: { item: email } });
+            navigate("/dashboard", { state: { item: email } });
             console.log("sdfdsfdsf");
             setUser(true);
-            setAdmin(true);
+            setUserProfile({ email });
+            // setAdmin(true);
             setEmail("");
             setPassword("");
             setConfirmPassword("");
@@ -62,11 +81,34 @@ const Signup = () => {
       sx={{}}
       style={{
         backgroundColor: "white",
-        display: "flex",
+        // display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
+      <Box
+        style={{
+          padding: 5,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Typography style={{ color: "black" }}>
+          {selected ? "Admin" : "Vaccinator"}
+        </Typography>
+        <ToggleButton
+          style={{ backgroundColor: "#00f700", marginLeft: 5 }}
+          value="check"
+          selected={selected}
+          onChange={() => {
+            setSelected(!selected);
+          }}
+        >
+          <CheckCircleOutline />
+        </ToggleButton>
+      </Box>
       <Grid container sx={{ height: "85vh", padding: 2 }}>
         <Grid
           lg={7}

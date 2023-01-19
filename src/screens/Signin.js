@@ -34,18 +34,24 @@ const Signin = () => {
       payload: data,
     });
   };
-  const setAdmin = (data) => {
+  const setUserProfile = (data) => {
     return dispatch({
-      type: "isLoginAdmin",
+      type: "SAVE_USER",
       payload: data,
     });
   };
-  const setFaculty = (data) => {
-    return dispatch({
-      type: "isLoginFaculty",
-      payload: data,
-    });
-  };
+  // const setAdmin = (data) => {
+  //   return dispatch({
+  //     type: "isLoginAdmin",
+  //     payload: data,
+  //   });
+  // };
+  // const setFaculty = (data) => {
+  //   return dispatch({
+  //     type: "isLoginFaculty",
+  //     payload: data,
+  //   });
+  // };
 
   const signin = async () => {
     try {
@@ -61,12 +67,13 @@ const Signin = () => {
               return alert(res.data.message);
             }
             console.log("sdfdsfdsf");
-            navigate("/adminDashboard", {
+            navigate("/dashboard", {
               state: { item: res.data.token },
             });
             console.log("sdfdsfdsf", typeof res.data.token);
             setUser(true);
-            setAdmin(true);
+            setUserProfile({ email });
+            // setAdmin(true);
             setEmail("");
             setPassword("");
             window.localStorage.setItem("type", "admin");
@@ -97,7 +104,7 @@ const Signin = () => {
             navigate("/dashboard", { state: { item: "faculty" } });
             console.log("sdfdsfdsf");
             setUser(true);
-            setFaculty(true);
+            // setFaculty(true);
             setEmail("");
             setPassword("");
             window.localStorage.setItem("type", "faculty");
@@ -117,7 +124,7 @@ const Signin = () => {
         backgroundColor: "whitenn",
       }}
     >
-      {/* <Box
+      <Box
         style={{
           padding: 5,
           display: "flex",
@@ -126,8 +133,8 @@ const Signin = () => {
           flexDirection: "row",
         }}
       >
-        <Typography style={{ color: "white" }}>
-          {selected ? "Admin" : "Faculty"}
+        <Typography style={{ color: "black" }}>
+          {selected ? "Admin" : "Vaccinator"}
         </Typography>
         <ToggleButton
           style={{ backgroundColor: "#00f700", marginLeft: 5 }}
@@ -139,7 +146,7 @@ const Signin = () => {
         >
           <CheckCircleOutline />
         </ToggleButton>
-      </Box> */}
+      </Box>
       <Box
         sx={{}}
         style={{
@@ -183,10 +190,7 @@ const Signin = () => {
                     setPassword(e.target.value);
                   }}
                   // onClick={selected ? signin : facultySignin}
-                  onClick={() => {
-                    setUser(true);
-                    navigate("dashboard");
-                  }}
+                  onClick={signin}
                 />
               </Box>
             </Card>
