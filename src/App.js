@@ -20,6 +20,9 @@ import AdminDashboard from "./components/AdminDashboard";
 import CourseDetails from "./screens/CourseDetails";
 import VacancyDashboard from "./screens/VacancyDashboard";
 import VaccineDetails from "./screens/VaccineDetails";
+import VacancyForm from "./screens/VacancyForm";
+import Admin from "./screens/Admin";
+import VaccineValidate from "./screens/VaccineValidate";
 
 // class App extends React.Component {
 const App = (props) => {
@@ -64,13 +67,11 @@ const App = (props) => {
             element={
               !props.isLogin ? (
                 <Layout />
+              ) : props.isLoginAdmin ? (
+                <Navigate to="/adminDashboard" replace />
               ) : (
-                // ) : props.isLoginAdmin ? (
-                //   <Navigate to="/adminDashboard" replace />
-                // ) : props.isLoginFaculty ? (
-                <Navigate to="/dashboard" replace />
+                props.isLoginFaculty && <Navigate to="/dashboard" replace />
               )
-              // ) : null
             }
           >
             <Route index element={<Signin />} />
@@ -79,34 +80,35 @@ const App = (props) => {
           <Route
             path="/dashboard"
             element={
+              // props.isLogin ? (
+              //   <VacancyDashboard />
+              // ) : (
               props.isLogin ? (
-                <VacancyDashboard />
-              ) : (
-                // props.isLogin ? (
-                //   props.isLoginFaculty ? (
-                //     <VacancyDashboard />
-                //   ) : (
-                <Navigate
-                  to="/"
-                  replace
-                  state={{
-                    st: "user is not logged in",
-                  }}
-                />
-              )
-              //   )
-              // ) : null
+                props.isLoginFaculty ? (
+                  <VacancyDashboard />
+                ) : (
+                  <Navigate
+                    to="/"
+                    replace
+                    state={{
+                      st: "user is not logged in",
+                    }}
+                  />
+                )
+              ) : //   )
+              null
             }
           >
             <Route path="profile" element={<Profile />} />
             <Route path="vaccineDetails" element={<VaccineDetails />} />
+            <Route path="vaccineForm" element={<VacancyForm />} />
           </Route>
-          {/* <Route
+          <Route
             path="/adminDashboard"
             element={
               props.isLogin ? (
                 props.isLoginAdmin ? (
-                  <AdminDashboard />
+                  <Admin />
                 ) : (
                   <Navigate
                     to="/"
@@ -120,12 +122,12 @@ const App = (props) => {
             }
           >
             <Route path="profile" element={<Profile />} />
-            <Route
+            {/* <Route
               path="facultyRegistration"
               element={<FacultyRegistration />}
-            />
-            <Route path="facultyCourses" element={<FacultyCourses />} />
-          </Route> */}
+            /> */}
+            <Route path="validation" element={<VaccineValidate />} />
+          </Route>
           <Route path="*" element={<h1>page not found error 404 !!</h1>} />
 
           {/* <Route path="/post/:lll" element={<Post />} />

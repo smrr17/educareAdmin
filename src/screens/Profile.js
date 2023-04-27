@@ -19,10 +19,12 @@ import {
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { NoEncryption } from "@mui/icons-material";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "../api/api";
 
 const Profile = (props) => {
+  const redux = useSelector((data) => data.reducer.isLoginAdmin);
+  console.log(redux, "redux");
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,7 +42,7 @@ const Profile = (props) => {
   const [contact, setContact] = useState(
     props.user?.contact ? props.user?.contact : ""
   );
-  const updatedProfile = () => {
+  const adminProfile = () => {
     if (
       name === props.user.name &&
       fname === props.user.fname &&
@@ -54,7 +56,7 @@ const Profile = (props) => {
       axios
         .post("/updateProfile", { name, fname, username, address, contact })
         .then(() => {
-          alert("Profile Updated");
+          alert(" Admin Profile Updated");
           userProfile({
             ...props.user,
             name,
@@ -63,13 +65,13 @@ const Profile = (props) => {
             address,
             contact,
           });
-          navigate("/dashboard");
+          navigate("/adminDashboard");
         });
     } else {
       alert("Make Some Changes");
     }
   };
-  const facultyProfile = () => {
+  const vaccinatorProfile = () => {
     if (
       name === props.user.name &&
       fname === props.user.fname &&
@@ -83,8 +85,8 @@ const Profile = (props) => {
       axios
         .post("/facultyUpdated", { name, fname, username, address, contact })
         .then((res) => {
-          console.log("object,res", res);
-          alert("Profile faculty Updated");
+          console.log("object.....res", res);
+          alert("VACCINATOR  Updated");
           userProfile({
             ...props.user,
             name,
@@ -93,7 +95,7 @@ const Profile = (props) => {
             address,
             contact,
           });
-          navigate("/adminDashboard");
+          navigate("/dashboard");
         });
     } else {
       alert("Make Some Changes");
@@ -123,8 +125,8 @@ const Profile = (props) => {
   };
   const logout = () => {
     setUser(false);
-    // setAdmin(false);
-    // setFaculty(false);
+    setAdmin(false);
+    setFaculty(false);
     userProfile(null);
     navigate("/", { replace: true });
   };
@@ -416,7 +418,7 @@ const Profile = (props) => {
           >
             <Button
               type="submit"
-              onClick={updatedProfile}
+              onClick={redux ? adminProfile : vaccinatorProfile}
               style={{}}
               sx={{
                 backgroundColor: "#1d80e1",

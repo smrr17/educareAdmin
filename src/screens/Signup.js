@@ -43,7 +43,13 @@ const Signup = () => {
       payload: data,
     });
   };
-  const signup = async () => {
+  const setFaculty = (data) => {
+    return dispatch({
+      type: "isLoginFaculty",
+      payload: data,
+    });
+  };
+  const adminSignup = async () => {
     try {
       if (email && password && confirmPassword) {
         await axios
@@ -57,13 +63,13 @@ const Signup = () => {
             if (res.data.status === "failed") {
               return alert(res.data.message);
             }
-            // window.localStorage.setItem("token", res.data.token);
+            window.localStorage.setItem("token", res.data.token);
             console.log("sdfdsfdsf");
-            navigate("/dashboard", { state: { item: email } });
+            setUserProfile({ email });
+            navigate("/adminDashboard", { state: { item: email } });
             console.log("sdfdsfdsf");
             setUser(true);
-            setUserProfile({ email });
-            // setAdmin(true);
+            setAdmin(true);
             setEmail("");
             setPassword("");
             setConfirmPassword("");
@@ -75,7 +81,38 @@ const Signup = () => {
       alert(error);
     }
   };
-
+  const vaccinatorSignup = async () => {
+    try {
+      if (email && password && confirmPassword) {
+        await axios
+          .post("/facultyRegistration", {
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+          })
+          .then((res) => {
+            console.log("res", res.data);
+            if (res.data.status === "failed") {
+              return alert(res.data.message);
+            }
+            window.localStorage.setItem("token", res.data.token);
+            console.log("sdfdsfdsf");
+            navigate("/dashboard", { state: { item: email } });
+            console.log("sdfdsfdsf");
+            setUser(true);
+            setFaculty(true);
+            setUserProfile({ email });
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+          });
+      } else {
+        alert("please fill all fields");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
   return (
     <Box
       sx={{}}
@@ -99,7 +136,7 @@ const Signup = () => {
           {selected ? "Admin" : "Vaccinator"}
         </Typography>
         <ToggleButton
-          style={{ backgroundColor: "#00f700", marginLeft: 5 }}
+          style={{ backgroundColor: "#1d80e1", marginLeft: 5 }}
           value="check"
           selected={selected}
           onChange={() => {
@@ -147,7 +184,7 @@ const Signup = () => {
                 setConfirmPassword={(e) => {
                   setConfirmPassword(e.target.value);
                 }}
-                onClick={signup}
+                onClick={selected ? adminSignup : vaccinatorSignup}
               />
             </Box>
           </Card>

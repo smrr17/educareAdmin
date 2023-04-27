@@ -16,7 +16,7 @@ import LoginForm from "../components/LoginForm";
 import React, { useState } from "react";
 import axios from "../api/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ToggleSwitch from "../components/ToggleSwitch";
 import { CheckCircleOutline } from "@mui/icons-material";
 
@@ -40,18 +40,18 @@ const Signin = () => {
       payload: data,
     });
   };
-  // const setAdmin = (data) => {
-  //   return dispatch({
-  //     type: "isLoginAdmin",
-  //     payload: data,
-  //   });
-  // };
-  // const setFaculty = (data) => {
-  //   return dispatch({
-  //     type: "isLoginFaculty",
-  //     payload: data,
-  //   });
-  // };
+  const setAdmin = (data) => {
+    return dispatch({
+      type: "isLoginAdmin",
+      payload: data,
+    });
+  };
+  const setFaculty = (data) => {
+    return dispatch({
+      type: "isLoginFaculty",
+      payload: data,
+    });
+  };
 
   const signin = async () => {
     try {
@@ -67,16 +67,16 @@ const Signin = () => {
               return alert(res.data.message);
             }
             console.log("sdfdsfdsf");
-            navigate("/dashboard", {
+            navigate("/adminDashboard", {
               state: { item: res.data.token },
             });
             console.log("sdfdsfdsf", typeof res.data.token);
             setUser(true);
             setUserProfile({ email });
-            // setAdmin(true);
+            setAdmin(true);
             setEmail("");
             setPassword("");
-            window.localStorage.setItem("type", "admin");
+            // window.localStorage.setItem("type", "admin");
             window.localStorage.setItem("token", res.data.token);
           });
       } else {
@@ -98,16 +98,15 @@ const Signin = () => {
           .then((res) => {
             console.log("res", res.data);
             if (res.data.status === "failed") {
-              return alert(res.data.response.data.error, "knkn");
+              return alert(res.data.message);
             }
-            console.log("sdfdsfdsf");
             navigate("/dashboard", { state: { item: "faculty" } });
-            console.log("sdfdsfdsf");
             setUser(true);
-            // setFaculty(true);
+            setFaculty(true);
+            setUserProfile({ email });
             setEmail("");
             setPassword("");
-            window.localStorage.setItem("type", "faculty");
+            // window.localStorage.setItem("type", "faculty");
             window.localStorage.setItem("token", res.data.token);
           });
       } else {
@@ -115,7 +114,7 @@ const Signin = () => {
       }
     } catch (error) {
       console.log(error);
-      alert(error.response.data.error);
+      alert(error);
     }
   };
   return (
@@ -137,7 +136,7 @@ const Signin = () => {
           {selected ? "Admin" : "Vaccinator"}
         </Typography>
         <ToggleButton
-          style={{ backgroundColor: "#00f700", marginLeft: 5 }}
+          style={{ backgroundColor: "#1d80e1", marginLeft: 5 }}
           value="check"
           selected={selected}
           onChange={() => {
@@ -189,8 +188,8 @@ const Signin = () => {
                   setPassword={(e) => {
                     setPassword(e.target.value);
                   }}
-                  // onClick={selected ? signin : facultySignin}
-                  onClick={signin}
+                  onClick={selected ? signin : facultySignin}
+                  // onClick={signin}
                 />
               </Box>
             </Card>

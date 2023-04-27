@@ -4,6 +4,7 @@ import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import pic from "../assets/images/doctor.jpeg";
 import axios from "../api/api";
 import { db } from "../components/firebase";
+import Axios from "axios";
 
 import {
   Grid,
@@ -23,7 +24,7 @@ import {
 } from "@mui/material";
 import { connect, useDispatch, useSelector } from "react-redux";
 
-const VacancyDashboard = () => {
+const VacancyDashboard = (props) => {
   const me = useSelector((i) => i.reducer.user);
   const [selectedFile, setSelectedFile] = useState("");
   const [removeValue, setRemoveValue] = useState("");
@@ -38,22 +39,94 @@ const VacancyDashboard = () => {
     // this.setState({ selectedFile: event.target.files[0] });
     // event.target.value = null;
   };
-  const onFileUpload = async () => {
-    const url = await uploadFile();
+  useEffect(() => {
+    // console.log("jiih");
+    getLoggeduser();
+  }, []);
+  const getLoggeduser = () => {
+    // console.log("chal");
+    axios.get("/loggedFaculty").then((res) => {
+      console.log("use too", typeof res.data.user);
+      //   setUser(res.data.user);
+      // this.setState({ user: res.data.user });
+      if (typeof res?.data?.user === "object") {
+        userProfile(res.data.user);
+      }
+    });
+  };
+  const userProfile = (data) => {
+    dispatch({ type: "SAVE_USER", payload: data });
+  };
+  // const getBase64 = (file) => {
+  //   console.log("object", file);
+  //   let document = "";
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(file);
+  //   reader.onload = function () {
+  //     document = reader.result.replace("data:", "").replace(/^.+,/, "");
+  //   };
+  //   reader.onerror = function (error) {
+  //     console.log("Error: ", error);
+  //   };
+  //   console.log(document);
+  //   return document;
+  // };
+  function imageUploaded() {
+    let base64String = "";
+    // var file = document.querySelector("input[type=file]")["files"][0];
 
-    axios
-      .post("createVaccine", {
-        name: selectedFile.name,
-        path: url,
-      })
-      .then(() => {
-        setRemoveValue("");
-        setSelectedFile("");
-        alert("uploaded");
-      });
+    var reader = new FileReader();
+
+    console.log("next");
+    reader.onload = function () {
+      console.log("next2");
+
+      base64String = reader.result.replace("data:", "").replace(/^.+,/, "");
+
+      const imageBase64Stringsep = base64String;
+
+      // alert(imageBase64Stringsep);
+      console.log("bade", base64String);
+    };
+    console.log("front");
+    reader.readAsDataURL(selectedFile);
+    console.log(reader);
+
+    let data = {
+      image: base64String,
+    };
+    const dd = JSON.stringify(data);
+    // Axios.post("35.78.89.226:8000", { dd }).then((res) => {
+    //   console.log(res, "res2");
+    // });
+    fetch("35.78.89.226:8000", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).then((data) => {
+      console.log(data, "res2");
+    });
+
+    return base64String;
+  }
+
+  const onFileUpload = async () => {
+    const res = imageUploaded();
+    // const res = getBase64(selectedFile);
+    console.log("res", res);
+    // const url = await uploadFile();
+    // axios
+    //   .post("createVaccine", {
+    //     name: selectedFile.name,
+    //     path: url,
+    //   })
+    //   .then(() => {
+    //     setRemoveValue("");
+    //     setSelectedFile("");
+    //     alert("uploaded");
+    //   });
     // let newArr = state.courseDocument;
     // newArr.push({ url: url, fileName: selectedFile.name });
-
     // axios
     //   .post(`editCourse/${state._id}`, {
     //     ...state,
@@ -82,7 +155,6 @@ const VacancyDashboard = () => {
     //     alert("uploaded");
     //   });
     // });
-
     // setSelectedFile(null);
   };
   const [dense, setDense] = useState(false);
@@ -103,6 +175,9 @@ const VacancyDashboard = () => {
   };
   const url = "https://www.w3schools.com/images/img_girl.jpg";
   if (location.pathname === "/dashboard/vaccineDetails") {
+    return <Outlet />;
+  }
+  if (location.pathname === "/dashboard/vaccineForm") {
     return <Outlet />;
   }
   if (location.pathname === "/dashboard/profile") {
@@ -171,7 +246,7 @@ const VacancyDashboard = () => {
                 // backgroundColor: "red",
               }}
             >
-              <Box
+              {/* <Box
                 sx={{
                   justifyContent: "space-between",
                 }}
@@ -209,8 +284,8 @@ const VacancyDashboard = () => {
                     upload
                   </Button>
                 </Box>
-              </Box>
-              <Button
+              </Box> */}
+              {/* <Button
                 onClick={() => {
                   navigate("vaccineDetails");
                 }}
@@ -230,9 +305,11 @@ const VacancyDashboard = () => {
                 }}
               >
                 Validation
-              </Button>
+              </Button> */}
               <Button
-                // onClick={onClick}
+                onClick={() => {
+                  navigate("vaccineForm");
+                }}
                 style={{
                   display: "flex",
                 }}
@@ -248,7 +325,7 @@ const VacancyDashboard = () => {
                   // marginBottom: 8,
                 }}
               >
-                Result
+                Form
               </Button>
             </Box>
             <Grid
@@ -269,4 +346,13 @@ const VacancyDashboard = () => {
   );
 };
 
-export default VacancyDashboard;
+// export default VacancyDashboard;
+function mapStateToProps({ reducer: { courses, user } }) {
+  console.log("user", user);
+
+  return {
+    courses,
+    user,
+  };
+}
+export default connect(mapStateToProps)(VacancyDashboard);

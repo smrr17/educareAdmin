@@ -43,7 +43,6 @@ const Dashboard = (props) => {
       setUser(res.data.user);
       // this.setState({ user: res.data.user });
       userProfile(res.data.user);
-      userCourses(res.data.user.courses);
     });
   };
 
